@@ -12,7 +12,7 @@ from daia import DAIA
 
 logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
-DATA_DIR = Path("daia/examples/")
+DATA_DIR = Path("examples/")
 
 
 def process_uploaded_document() -> None:
