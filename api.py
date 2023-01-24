@@ -51,8 +51,8 @@ st.sidebar.write(
     I love detailled questions. If you're not satisfied with my answers, complete your question with more details. Have fun!"""
 )
 
-st.sidebar.text_input("Your open_ai_key", key="key")
-st.session_state.daia.openai_api_key = st.session_state.key
+# st.sidebar.text_input("Your open_ai_key", key="key")
+# st.session_state.daia.openai_api_key = st.session_state.key
 
 st.sidebar.file_uploader("Input your file:", key='uploaded_file', on_change=process_uploaded_document)
 st.sidebar.write('Or')
