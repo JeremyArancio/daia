@@ -50,7 +50,10 @@ st.sidebar.write(
     """Hello, I'm DAIA, your document AI assistant. You can download a PDF document and converse with me to obtain any answer. 
     I love detailled questions. If you're not satisfied with my answers, complete your question with more details. Have fun!"""
 )
-# st.sidebar.text_input("Your open_ai_key", key="key")
+
+st.sidebar.text_input("Your open_ai_key", key="key")
+st.session_state.daia.openai_api_key = st.session_state.key
+
 st.sidebar.file_uploader("Input your file:", key='uploaded_file', on_change=process_uploaded_document)
 st.sidebar.write('Or')
 st.sidebar.selectbox(
@@ -58,8 +61,6 @@ st.sidebar.selectbox(
     ["", "Miklagard IV Draft Slip 2022-23 GD", "GPT3 finetuning paper"], 
     key="existing_filename",
     on_change=import_existing_file)
-
-st.subheader('How can I help you?')
 
 st.text_input(
     "What do you want to know about the document", 
