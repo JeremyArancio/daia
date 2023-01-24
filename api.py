@@ -47,8 +47,8 @@ if "started" not in st.session_state:
 st.title("DAIA: Document AI Assistant")
 
 st.sidebar.write(
-    """This is DAIA, a document AI assistant. You can download any document (for the moment only Pdf) and converse with DAIA to obtain any answer you like about the document. 
-    DAIA loves detailled questions. If you're not satisfied with its answer, complete your question with more details"""
+    """Hello, I'm DAIA, your document AI assistant. You can download a PDF document and converse with me to obtain any answer you like about it. 
+    I love detailled questions. If you're not satisfied with its answer, complete your question with more details. Haver fun!"""
 )
 # st.sidebar.text_input("Your open_ai_key", key="key")
 st.sidebar.file_uploader("Input your file:", key='uploaded_file', on_change=process_uploaded_document)
