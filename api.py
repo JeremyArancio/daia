@@ -2,7 +2,6 @@ from pathlib import Path
 import logging
 import time
 import pickle
-import tempfile
 from typing import *
 
 import streamlit as st
@@ -33,8 +32,9 @@ def import_existing_file() -> None:
 def answer_question() -> str:
     LOGGER.info(f"Start answer module.")
     if st.session_state.question and st.session_state.daia.docsearch:
-        LOGGER.info(f'The question is: {st.session_state.question}')
-        st.session_state.answer = st.session_state.daia.answer(question=st.session_state.question)
+        with st.spinner("A moment, I'm looking at the document... It will take a few seconds."):
+            LOGGER.info(f'The question is: {st.session_state.question}')
+            st.session_state.answer = st.session_state.daia.answer(question=st.session_state.question)
     else:
         st.session_state.answer = "You have to give me a file to work with."
     
@@ -63,7 +63,7 @@ st.sidebar.selectbox(
     on_change=import_existing_file)
 
 st.text_input(
-    "What do you want to know about the document", 
+    "What do you want to know about the document?", 
     key="question",
     on_change=answer_question
 )

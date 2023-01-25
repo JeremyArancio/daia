@@ -3,14 +3,21 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores.faiss import FAISS
 from langchain.text_splitter import SpacyTextSplitter
 from langchain import OpenAI, VectorDBQA
-from langchain.chains.qa_with_sources import load_qa_with_sources_chain
+from langchain.chains.question_answering import load_qa_chain
+from langchain.prompts import PromptTemplate
+from langchain.chains import SimpleSequentialChain
+from langchain.callbacks import get_openai_callback
 
 from typing import *
 from pathlib import Path
+import logging
 
 from PyPDF2 import PdfReader
 
 import config
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 class DAIA():
@@ -58,8 +65,12 @@ class DAIA():
             chunk_overlap=config.chunk_overlap
         )
         texts = text_splitter.split_text(text)
-        embeddings = OpenAIEmbeddings(openai_api_key=self.open_ai_key)
-        self.docsearch = FAISS.from_texts(texts=texts, embedding=embeddings)
+        LOGGER.info(f'Number of chunks: {len(texts)}')
+
+        with get_openai_callback() as cb:
+            embeddings = OpenAIEmbeddings(openai_api_key=self.open_ai_key)
+            LOGGER.info(f"Number of tokens used for embeddings: {cb.total_tokens}")
+            self.docsearch = FAISS.from_texts(texts=texts, embedding=embeddings)
 
     def answer(self, question: str) -> str:
         """From a question relative to a document, generate the answer.
@@ -70,9 +81,13 @@ class DAIA():
         Returns:
             str: Answer generated with the LLM
         """
-        qa = VectorDBQA.from_chain_type(
-            llm=self.llm,
-            chain_type=config.chain_type, 
-            vectorstore=self.docsearch,
-        )
-        return qa.run(question)
+        with get_openai_callback() as cb:
+            qa = VectorDBQA.from_chain_type(
+                llm=self.llm,
+                chain_type=config.chain_type, 
+                vectorstore=self.docsearch,
+                verbose=config.verbose
+            )
+            answer = qa.run(question)
+            LOGGER.info(f"Number of tokens used for answering: {cb.total_tokens}")
+        return answer
