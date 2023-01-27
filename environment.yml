@@ -1,0 +1,7 @@
+name: stats
+channels:
+  - conda-forge
+dependencies:
+  - poppler
+  - poppler=22.12.0=h381b16e_0  
+  - poppler-data=0.4.11=h06a4308_1 
