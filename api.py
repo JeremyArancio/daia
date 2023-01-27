@@ -35,8 +35,7 @@ def answer_question() -> str:
         with st.spinner("A moment, I'm looking at the document... It will take a few seconds."):
             LOGGER.info(f'The question is: {st.session_state.question}')
             st.session_state.answer = st.session_state.daia.answer(question=st.session_state.question)
-            if "uploaded_file" in st.session_state:
-                st.session_state.pages = st.session_state.daia.get_pages_from_sources(file=uploaded_file.getvalue())
+            st.session_state.pages = st.session_state.daia.get_pages_from_sources(file=uploaded_file.getvalue())
     else:
         st.session_state.answer = "You have to give me a file to work with."
     
