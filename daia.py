@@ -129,7 +129,7 @@ class DAIA():
         """
         page_indices: List[int] = []
         images: List = []
-        pdf_images = pdf2image.convert_from_bytes(pdf_file=file)
+        pdf_images = pdf2image.convert_from_bytes(pdf_file=file, poppler_path="dependencies/poppler-0.68.0/bin")
         for source in self.sources:
             page_indices.extend([i for i, page in enumerate(self.reader.pages) if source[:n_char] in page.extract_text()])
         page_indices.sort()
