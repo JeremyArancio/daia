@@ -1,5 +1,5 @@
 # [Chain]
-chunk_size = 2000
+chunk_size = 1300
 chunk_overlap = 0
 separator = "\n"
 chain_type = "refine"
@@ -8,7 +8,7 @@ chain_type = "refine"
 embedding_model = "text-embedding-ada-002"
 text_model = "text-davinci-002"
 temperature = 0.1
-max_tokens = 400
+max_tokens = 220
 top_p = 1
 frequency_penalty = 0
 presence_penalty = 0
@@ -16,6 +16,10 @@ n = 1
 stream = False
 logprobs = None
 verbose = True
+
+# Sources
+k = 2
+n_char = 100 # Number 
 
 # [Prompts]
 refine_prompt = """You are a document AI assistant helping the user extract information from a document.

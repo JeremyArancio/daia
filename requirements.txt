@@ -1,6 +1,6 @@
 streamlit
 openai
-langchain==0.0.69
+langchain==0.0.70
 PyPDF2==3.0.1
 faiss-cpu==1.7.3
 tiktoken==0.1.2
