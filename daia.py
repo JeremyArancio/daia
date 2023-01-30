@@ -4,7 +4,6 @@ from langchain.vectorstores.faiss import FAISS
 from langchain.vectorstores import VectorStore
 from langchain.text_splitter import SpacyTextSplitter
 from langchain import OpenAI, VectorDBQA
-from langchain.chains.qa_with_sources import load_qa_with_sources_chain
 from langchain.callbacks import get_openai_callback
 
 from typing import Optional, Union, Any, List
@@ -12,7 +11,7 @@ from pathlib import Path
 import logging
 
 from PyPDF2 import PdfReader
-import pdf2image
+import pypdfium2 as pdfium
 
 import config
 
@@ -129,10 +128,10 @@ class DAIA():
         """
         page_indices: List[int] = []
         images: List = []
-        pdf_images = pdf2image.convert_from_bytes(pdf_file=file)
+        pdf = pdfium.PdfDocument(file)
         for source in self.sources:
             page_indices.extend([i for i, page in enumerate(self.reader.pages) if source[:n_char] in page.extract_text()])
         page_indices.sort()
         for i in page_indices:
-            images.append(pdf_images[i].convert(mode="RGBA"))
+            images.append(pdf.get_page(i).render_topil())
         return images
